@@ -20,10 +20,15 @@ def two_sum(nums, target)
         hash[i] = nums[i]
     end
     hash.each_value {|value| # for each of values in hash 
-        if hash.key(target - value) != nil # if there is a complement present (or there is a possiblity of duplicate value)
-            key = hash.key(value) # store the key (or index)
-            hash.delete(key) # delete the pair from the hash 
-            return [key, hash.key(target - value)] # return the indices
+        
+        key = hash.key(value) # key (or index) of the value
+        key_mirror = hash.key(target - value) # key of the mirror 
+        if key_mirror != nil # if there is a complement present
+            # there is a possiblity of duplicate value
+            hash.delete(key) # delete the pair from the hash
+            key_mirror = hash.key(target - value) # updated key of the mirror
+            # if key_mirror is nil then the value is a mirror of itself
+            return [key, key_mirror] if key_mirror # return the indices if mirror is present
         end  
     } # looping though the values O(n) * finding complementary hash O (1) = O(n) 
 end # total big-Oh = O(n) + O(n) = O(n)
